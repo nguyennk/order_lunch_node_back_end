@@ -1,5 +1,10 @@
 import {
-    Body, JsonController, Post, OnUndefined, Authorized, Get
+    Body,
+    JsonController,
+    Post,
+    OnUndefined,
+    Authorized,
+    Get,
 } from 'routing-controllers';
 
 import { User } from '../models/User';
@@ -8,10 +13,7 @@ import { AuthError } from '../errors/AuthError';
 
 @JsonController('/auth')
 export class AuthenticationController {
-
-    constructor(
-        private userService: UserService
-    ) { }
+    constructor(private userService: UserService) {}
 
     @Authorized()
     @Get('/login')
@@ -21,6 +23,7 @@ export class AuthenticationController {
 
     @Post('/signup')
     public create(@Body() user: User): Promise<User> {
+        console.log('user');
         return this.userService.create(user);
     }
 

@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateOrderDishesTable1523438725551 implements MigrationInterface {
+export class CreateOrderNote1524552325489 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
-        const table = new Table('order_dishes', [
+        const table = new Table('notes', [
             {
                 name: 'id',
                 type: 'integer',
@@ -12,40 +12,46 @@ export class CreateOrderDishesTable1523438725551 implements MigrationInterface {
                 isNullable: false,
             },
             {
-                name: 'order_id',
-                type: 'integer',
+                name: 'note',
+                type: 'varchar',
+                length: 500,
+                isUnique: false,
                 isPrimary: false,
                 isNullable: false,
             },
             {
-                name: 'dish_id',
+                name: 'order_id',
                 type: 'integer',
+                isUnique: false,
                 isPrimary: false,
                 isNullable: false,
             },
             {
                 name: 'user_id',
                 type: 'integer',
+                isUnique: false,
                 isPrimary: false,
                 isNullable: false,
             },
             {
-                name: 'count',
-                type: 'integer',
+                name: 'created_date',
+                type: 'datetime',
                 isPrimary: false,
                 isNullable: false,
+                default: 'current_timestamp',
             },
             {
-                name: 'price',
-                type: 'double',
+                name: 'modified_date',
+                type: 'datetime',
                 isPrimary: false,
                 isNullable: false,
+                default: 'current_timestamp',
             },
         ]);
         await queryRunner.createTable(table);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.dropTable('order_dishes');
+        await queryRunner.dropTable('notes');
     }
 }

@@ -5,7 +5,6 @@ import { FactoryFunction } from './types';
 import { isPromiseLike } from './utils';
 
 export class EntityFactory<Entity, Settings> {
-
     private mapFunction: (entity: Entity) => Promise<Entity>;
 
     constructor(
@@ -13,7 +12,7 @@ export class EntityFactory<Entity, Settings> {
         public entity: ObjectType<Entity>,
         private factory: FactoryFunction<Entity, Settings>,
         private settings?: Settings
-    ) { }
+    ) {}
 
     // -------------------------------------------------------------------------
     // Public API
@@ -23,7 +22,9 @@ export class EntityFactory<Entity, Settings> {
      * This function is used to alter the generated values of entity, before it
      * is persist into the database
      */
-    public map(mapFunction: (entity: Entity) => Promise<Entity>): EntityFactory<Entity, Settings> {
+    public map(
+        mapFunction: (entity: Entity) => Promise<Entity>
+    ): EntityFactory<Entity, Settings> {
         this.mapFunction = mapFunction;
         return this;
     }
@@ -33,7 +34,9 @@ export class EntityFactory<Entity, Settings> {
      */
     public async make(): Promise<Entity> {
         if (this.factory) {
-            let entity = await this.resolveEntity(this.factory(Faker, this.settings));
+            let entity = await this.resolveEntity(
+                this.factory(Faker, this.settings)
+            );
             if (this.mapFunction) {
                 entity = await this.mapFunction(entity);
             }
@@ -90,14 +93,17 @@ export class EntityFactory<Entity, Settings> {
                 if (typeof entity[attribute] === 'object') {
                     const subEntityFactory = entity[attribute];
                     try {
-                        entity[attribute] = await (subEntityFactory as any).make();
+                        entity[
+                            attribute
+                        ] = await (subEntityFactory as any).make();
                     } catch (e) {
-                        throw new Error(`Could not make ${(subEntityFactory as any).name}`);
+                        throw new Error(
+                            `Could not make ${(subEntityFactory as any).name}`
+                        );
                     }
                 }
             }
         }
         return entity;
     }
-
 }

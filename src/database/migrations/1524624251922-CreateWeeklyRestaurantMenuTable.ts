@@ -1,8 +1,9 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateOrderDishesTable1523438725551 implements MigrationInterface {
+export class CreateWeeklyRestaurantMenuTable1524624251922
+    implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
-        const table = new Table('order_dishes', [
+        const table = new Table('weekly_restaurant_dates', [
             {
                 name: 'id',
                 type: 'integer',
@@ -12,40 +13,38 @@ export class CreateOrderDishesTable1523438725551 implements MigrationInterface {
                 isNullable: false,
             },
             {
-                name: 'order_id',
+                name: 'week_number',
                 type: 'integer',
+                isUnique: false,
                 isPrimary: false,
                 isNullable: false,
             },
             {
-                name: 'dish_id',
+                name: 'day_number',
                 type: 'integer',
+                isUnique: false,
                 isPrimary: false,
                 isNullable: false,
             },
             {
-                name: 'user_id',
-                type: 'integer',
+                name: 'created_date',
+                type: 'datetime',
                 isPrimary: false,
                 isNullable: false,
+                default: 'current_timestamp',
             },
             {
-                name: 'count',
-                type: 'integer',
+                name: 'modified_date',
+                type: 'datetime',
                 isPrimary: false,
                 isNullable: false,
-            },
-            {
-                name: 'price',
-                type: 'double',
-                isPrimary: false,
-                isNullable: false,
+                default: 'current_timestamp',
             },
         ]);
         await queryRunner.createTable(table);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.dropTable('order_dishes');
+        await queryRunner.dropTable('weekly_restaurant_dates');
     }
 }
