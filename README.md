@@ -12,6 +12,10 @@
 
     `npm run setup`
 
+4. **Run the project**
+
+    `npm run serve`
+
 ## Initial Machine Setup
 
 1. **Install [Node 4.0.0 or greater](https://nodejs.org)**
